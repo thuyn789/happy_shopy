@@ -4,7 +4,7 @@ import 'package:happy_shopy/screens/account_settings_screen/account_settings.dar
 import 'package:happy_shopy/screens/add_product_screen/add_product.dart';
 import 'package:happy_shopy/screens/home_screen/home.dart';
 import 'package:happy_shopy/screens/login_screen/login.dart';
-import 'package:happy_shopy/streams/user_profile_stream.dart';
+import 'package:happy_shopy/streams/init_stream.dart';
 
 class MenuAction {
   void menuAction(BuildContext context, int index, final userObj) {
@@ -24,7 +24,7 @@ class MenuAction {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => UserProfileStream(),
+              builder: (context) => InitStream(widgetSwitch: 1,),
             ));
         break;
       case 2:

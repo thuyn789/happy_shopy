@@ -147,7 +147,7 @@ class _LoginState extends State<LoginPage> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => InitStream()));
+                                  builder: (context) => InitStream(widgetSwitch: 0,)));
                         } else {
                           //when not successful, popup alert
                           //and prompt user to try again
@@ -231,7 +231,7 @@ class _LoginState extends State<LoginPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitStream()));
+                                builder: (context) => InitStream(widgetSwitch: 0,)));
                       },
                       child: Text(
                         'Login with Google',
@@ -256,7 +256,7 @@ class _LoginState extends State<LoginPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitStream()));
+                                builder: (context) => InitStream(widgetSwitch: 0,)));
                       },
                       child: Text(
                         'Login As a Guest',

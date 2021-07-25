@@ -168,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InitStream()));
+                                builder: (context) => InitStream(widgetSwitch: 0,)));
                       } else {
                         //when not successful, popup alert
                         //and prompt user to try again
