@@ -45,6 +45,38 @@ class DBServices {
     }
   }
 
+  Future<bool> deleteItem(String itemID) async {
+    try{
+      await _database.collection('products').doc(itemID).delete();
+      return true;
+    }catch(e){
+      print('Failed to delete user: $e');
+      return false;
+    }
+  }
+  
+  Future<bool> addToCart(
+      String itemID,
+      String productName,
+      String imageURL,
+      String price) async {
+    try{
+      await _database.collection('orders')
+          .doc(_auth.currentUser!.uid)
+          .collection('cart')
+          .doc(itemID)
+          .set({
+        'itemID': itemID,
+        'productName':productName,
+        'price':price,
+        'imageURL':imageURL});
+      return true;
+    }catch(e){
+      print(e);
+      return false;
+    }
+  }
+
   //Create a stream that listens to message changes
   Stream<QuerySnapshot> messageStream(String topic) {
     return _database
@@ -60,6 +92,14 @@ class DBServices {
     return _database
         .collection('users')
         .doc(_auth.currentUser!.uid)
+        .snapshots();
+  }
+
+  //Create a product stream
+  Stream<QuerySnapshot> productStream() {
+    return _database
+        .collection('products')
+        .orderBy('name', descending: false)
         .snapshots();
   }
 }
