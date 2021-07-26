@@ -49,20 +49,7 @@ flutter:
 cloud_firestore: ^2.4.0
 firebase_auth: ^3.0.1
 firebase_core: ^1.4.0
-flutter_speed_dial: ^4.1.0
 google_sign_in: ^5.0.5
-provider: ^5.0.0
-simple_animations: ^3.1.1
-
-
-flutter:
-    sdk: flutter
-cloud_firestore: ^2.2.2
-firebase_auth: ^1.4.1
-firebase_core: ^1.3.0
-flutter_speed_dial: ^3.0.5
-google_sign_in: ^5.0.4
-provider: ^5.0.0
 simple_animations: ^3.1.1
 
 
@@ -81,7 +68,6 @@ flutter_native_splash:
   ios: false
   web_image_mode: center
   color_dark: "#000000"
-
 
 
 ## defaultConfig
@@ -117,8 +103,7 @@ var firebaseConfig = {
 ## Basic App Structure
 
 - The root widget: main.dart
-- After login, the app will bring user to a screen to choose contact for messaging
-- main.dart -> choose_contact.dart -> chat_screen.dart
+- After login, the app will bring user to a home screen to browser products
 
 
 ## Login Credentials for Demo Accounts
@@ -131,3 +116,4 @@ var firebaseConfig = {
 
 
 ## Bugs and Not Working
+- Web version is not working properly due to Network Image
