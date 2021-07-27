@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:happy_shopy/firebase_api/db_services.dart';
 
 class BuildCardItem extends StatelessWidget {
-  BuildCardItem(
-      {required this.itemName,
-      required this.brand,
-      required this.price,
-      required this.imageURL});
+  BuildCardItem({required this.itemID,
+    required this.itemName,
+    required this.brand,
+    required this.price,
+    required this.imageURL});
 
+  final String itemID;
   final String itemName;
   final String brand;
   final String price;
@@ -20,7 +22,7 @@ class BuildCardItem extends StatelessWidget {
     return SafeArea(
       child: Card(
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         child: Column(
           children: <Widget>[
             ClipRRect(
@@ -68,8 +70,11 @@ class BuildCardItem extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        print('Added to cart');
+                      onPressed: () async {
+                        DBServices().addToCart(
+                            itemID, itemName, imageURL, price);
+
+                        buildSnackBar(context, 'Added to cart');
                       },
                       icon: Icon(
                         Icons.add_shopping_cart,
@@ -85,5 +90,23 @@ class BuildCardItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void buildSnackBar(BuildContext context, String text) {
+    var snackBar = SnackBar(
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 2),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.symmetric(vertical: 35, horizontal: 50),
+      shape: StadiumBorder(),
+      backgroundColor: Colors.grey[600],
+    );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 }

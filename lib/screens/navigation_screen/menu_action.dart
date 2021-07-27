@@ -4,6 +4,7 @@ import 'package:happy_shopy/screens/account_settings_screen/account_settings.dar
 import 'package:happy_shopy/screens/add_product_screen/add_product.dart';
 import 'package:happy_shopy/screens/home_screen/home.dart';
 import 'package:happy_shopy/screens/login_screen/login.dart';
+import 'package:happy_shopy/screens/manage_product_screen/manage_product.dart';
 import 'package:happy_shopy/streams/init_stream.dart';
 
 class MenuAction {
@@ -66,6 +67,15 @@ class MenuAction {
             context,
             MaterialPageRoute(
               builder: (context) => AddProduct(
+                userObj: userObj,
+              ),
+            ));
+        break;
+      case 5:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ManageProduct(
                 userObj: userObj,
               ),
             ));

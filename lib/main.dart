@@ -32,5 +32,5 @@ class MyApp extends StatelessWidget {
  *
  * Users: Cart, Checkout, Order Confirmation
  * CS: Modifying Customer’s order
- * Admin: Modifying Customer’s order, Managing Listing, Admin Update User Info
+ * Admin: Modifying Customer’s order, Admin Update User Info
  */

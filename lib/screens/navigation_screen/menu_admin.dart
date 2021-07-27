@@ -42,7 +42,7 @@ class MenuAdmin extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.person, color: _color),
             title: Text('Manage Listing', style: TextStyle(color: _color)),
-            onTap: () => print('Manage Listing'),
+            onTap: () => MenuAction().menuAction(context, 5, userObj),
           ),
           ListTile(
             leading: Icon(Icons.message, color: _color),

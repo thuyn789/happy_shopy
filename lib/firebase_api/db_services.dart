@@ -45,12 +45,26 @@ class DBServices {
     }
   }
 
-  Future<bool> deleteItem(String itemID) async {
+  Future<bool> deleteProductFromListing(String itemID) async {
     try{
       await _database.collection('products').doc(itemID).delete();
       return true;
     }catch(e){
-      print('Failed to delete user: $e');
+      print('Failed to delete: $e');
+      return false;
+    }
+  }
+
+  Future<bool> removeFromCart(String itemID) async {
+    try{
+      await _database.collection('orders')
+          .doc(_auth.currentUser!.uid)
+          .collection('cart')
+          .doc(itemID)
+          .delete();
+      return true;
+    }catch(e){
+      print(e);
       return false;
     }
   }
