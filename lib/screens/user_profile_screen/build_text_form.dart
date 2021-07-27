@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
 class BuildTextForm extends StatefulWidget {
@@ -130,22 +131,15 @@ class _BuildTextFormState extends State<BuildTextForm> {
                   if (!_formkey.currentState!.validate()) {
                     return;
                   }
-
                   bool successful = await DBServices().updateUser(
                       _email.text.trim(),
                       _firstName.text.trim(),
                       _lastName.text.trim());
 
                   if (successful) {
-                    showDialog(
-                        context: context,
-                        builder: (context) =>
-                            buildAlertBox(context, '', 'Update Successful'));
+                    buildSnackBar(context, 'Update Successful');
                   } else {
-                    showDialog(
-                        context: context,
-                        builder: (context) => buildAlertBox(
-                            context, '', 'Error! Please try again later'));
+                    buildSnackBar(context, 'Error! Please try again later');
                   }
                 },
                 child: Text(
@@ -161,16 +155,21 @@ class _BuildTextFormState extends State<BuildTextForm> {
     );
   }
 
-  Widget buildAlertBox(BuildContext context, String title, String content) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text('OK'),
-        ),
-      ],
+  void buildSnackBar(BuildContext context, String text) {
+    var snackBar = SnackBar(
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 3),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.symmetric(vertical: 35, horizontal: 50),
+      shape: StadiumBorder(),
+      backgroundColor: Colors.grey[600],
     );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 }

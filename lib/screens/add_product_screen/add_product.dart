@@ -28,7 +28,7 @@ class _AddProductState extends State<AddProduct> {
             Text(
               'Add Product',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 color: _color,
                 fontWeight: FontWeight.bold,
               ),

@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
-import 'package:happy_shopy/firebase_api/db_services.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
 import 'package:happy_shopy/screens/user_profile_screen/build_text_form.dart';
 
@@ -32,7 +30,7 @@ class _UserProfileState extends State<UserProfilePage> {
             Text(
               'User Profile',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 color: _color,
                 fontWeight: FontWeight.bold,
               ),

@@ -29,7 +29,7 @@ class _AccountSettingsState extends State<AccountSettings> {
             Text(
               'Account Settings',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 color: _color,
                 fontWeight: FontWeight.bold,
               ),

@@ -117,8 +117,7 @@ class _BuildTextFormState extends State<BuildTextForm> {
             Container(
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  color: _color),
+                  borderRadius: BorderRadius.circular(25.0), color: _color),
               child: MaterialButton(
                 onPressed: () async {
                   if (!_formkey.currentState!.validate()) {
@@ -135,21 +134,16 @@ class _BuildTextFormState extends State<BuildTextForm> {
                     _imageURL.clear();
                     _brand.clear();
                     _price.clear();
-                    showDialog(
-                        context: context,
-                        builder: (context) =>
-                            buildAlertBox(context, '', 'Product Added Successful'));
+
+                    buildSnackBar(context, 'Product Added Successful');
                   } else {
-                    showDialog(
-                        context: context,
-                        builder: (context) => buildAlertBox(
-                            context, '', 'Error! Please try again later'));
+                    buildSnackBar(context, 'Error! Please try again later');
                   }
                 },
                 child: Text(
                   'Submit',
-                  style: TextStyle(
-                      fontWeight: _fontWeight, color: Colors.white),
+                  style:
+                      TextStyle(fontWeight: _fontWeight, color: Colors.white),
                 ),
               ),
             ),
@@ -159,16 +153,21 @@ class _BuildTextFormState extends State<BuildTextForm> {
     );
   }
 
-  Widget buildAlertBox(BuildContext context, String title, String content) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text('OK'),
-        ),
-      ],
+  void buildSnackBar(BuildContext context, String text) {
+    var snackBar = SnackBar(
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 3),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.symmetric(vertical: 35, horizontal: 50),
+      shape: StadiumBorder(),
+      backgroundColor: Colors.grey[600],
     );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 }

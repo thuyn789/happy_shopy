@@ -79,25 +79,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       //Uncomment this line to connect to Firebase Auth
                       //bool successful = await AuthServices().resetPassword(_email.text);
 
-                      //Proof of concept
+                      //Proof of concept for testing purposes
                       bool successful = true;
 
                       if (successful) {
                         //when successful, navigate user to login page
                         String _emailCheck = _email.text;
+                        String text = 'Reset email has been sent to $_emailCheck';
 
-                        showDialog(
-                            context: context,
-                            builder: (context) => buildAlertBox(context, '',
-                                'Reset email has been sent to $_emailCheck',true));
+                        buildSnackBar(context, text);
+                        await Future.delayed(Duration(seconds: 4));
+                        Navigator.pop(context, true);
                       } else {
                         //when not successful, popup alert
                         //and prompt user to try again
 
-                        showDialog(
-                            context: context,
-                            builder: (context) => buildAlertBox(context, '',
-                                'Error! Please try again!', false));
+                        buildSnackBar(context, 'Error! Please try again!');
                       }
                     },
                     child: Text(
@@ -136,22 +133,21 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
-  Widget buildAlertBox(
-      BuildContext context, String title, String content, bool secondPop) {
-    return AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context, true);
-            if (secondPop) {
-              Navigator.pop(context, true);
-            }
-          },
-          child: Text('OK'),
-        ),
-      ],
+  void buildSnackBar(BuildContext context, String text) {
+    var snackBar = SnackBar(
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 3),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.symmetric(vertical: 35, horizontal: 10),
+      shape: StadiumBorder(),
+      backgroundColor: Colors.grey[600],
     );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 }
