@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
 class MangeProductItem extends StatelessWidget {
-  MangeProductItem({required this.itemID,
-    required this.itemName,
-    required this.brand,
-    required this.price,
-    required this.imageURL});
-
-  final String itemID;
-  final String itemName;
-  final String brand;
-  final double price;
-  final String imageURL;
-
+  MangeProductItem({required this.dataObj});
+  
+  final dataObj;
+  
   @override
   Widget build(BuildContext context) {
+    final String itemID = dataObj['id'];
+    final String itemName = dataObj['name'];
+    final String brand = dataObj['brand'];
+    final double price = dataObj['price'];
+    final String imageURL = dataObj['imageURL'];
+    
     return SafeArea(
       child: Card(
         color: Colors.grey[200],

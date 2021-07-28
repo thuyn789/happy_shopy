@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
-import 'package:happy_shopy/firebase_api/db_services.dart';
-import 'package:happy_shopy/screens/home_screen/home_product_item.dart';
 import 'package:happy_shopy/screens/navigation_screen/menu_action.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
+import 'package:happy_shopy/streams/product_stream.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -63,28 +61,7 @@ class _HomePageState extends State<HomePage> {
             width: 500, //for web app screen
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
             decoration: BoxDecoration(color: Colors.grey[200]),
-            child: StreamBuilder<QuerySnapshot>(
-                stream: DBServices().productStream(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Something went wrong'));
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: Text("Loading"));
-                  }
-                  return ListView(
-                    children:
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
-                      final data = document.data() as Map<dynamic, dynamic>;
-                      return HomeProductItem(
-                          itemID: data['id'],
-                          itemName: data['name'],
-                          brand: data['brand'],
-                          price: data['price'],
-                          imageURL: data['imageURL']);
-                    }).toList(),
-                  );
-                }),
+            child: ProductStream(widgetSwitch: 0,),
           ),
         ),
       ),

@@ -24,7 +24,8 @@ class InitStream extends StatelessWidget {
                 return Center(child: Text('Something went wrong'));
               } else if (snapshot.hasData) {
                 final userObj = snapshot.data!.data() as Map<String, dynamic>;
-                return widgetSwitch == 0 ? HomePage(userObj: userObj) : UserProfilePage(userObj: userObj,);
+                return widgetSwitch == 0
+                    ? HomePage(userObj: userObj) : UserProfilePage(userObj: userObj,);
               } else {
                 return Center(child: Text('Something went wrong'));
               }
