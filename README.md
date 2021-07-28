@@ -110,6 +110,16 @@ var firebaseConfig = {
 - Users will be able to see their shopping cart on different devices as long as they use the same login credential.  For example, users can add an item to cart on their mobile devices, and they can also see the same item on web app and checkout on web app if they prefer.
 
 
+## Database Structure
+
+- All user information is stored in users -> userID
+  + {email, first_name, last_name, reg_date_time, urlAvatar, user_id, user_role}
+- All product information is stored in products -> productID
+  + {brand, id, imageURL, name, price}
+- All items in cart are stored in orders -> userID -> cart
+  + Cart information, such as item count, subtotal, etc are stored in userID, which the parent document of cart
+- All orders are stored in orders -> userID -> orders
+
 ## Login Credentials for Demo Accounts
 
 - Admin: admin@admin.com, password
