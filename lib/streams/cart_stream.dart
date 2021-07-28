@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
-import 'package:happy_shopy/screens/home_screen/home_product_item.dart';
-import 'package:happy_shopy/screens/manage_product_screen/manage_product_item.dart';
+import 'package:happy_shopy/screens/cart_screen/cart_item.dart';
 
-class ProductStream extends StatelessWidget {
-  ProductStream({required this.widgetSwitch});
-
-  final int widgetSwitch;
+class CartStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: DBServices().productStream(),
+        stream: DBServices().retrieveCartStream(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Something went wrong'));
@@ -20,21 +16,12 @@ class ProductStream extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: Text("Loading"));
           }
-          return widgetSwitch == 0 ?
-          ListView(
+          return ListView(
             physics: BouncingScrollPhysics(),
             children:
             snapshot.data!.docs.map((DocumentSnapshot document) {
               final data = document.data() as Map<dynamic, dynamic>;
-              return HomeProductItem(dataObj: data);
-            }).toList(),
-          ) :
-          ListView(
-            physics: BouncingScrollPhysics(),
-            children:
-            snapshot.data!.docs.map((DocumentSnapshot document) {
-              final data = document.data() as Map<dynamic, dynamic>;
-              return MangeProductItem(dataObj: data);
+              return CartItem(dataObj: data);
             }).toList(),
           );
         });

@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
 class CartItem extends StatelessWidget {
-  CartItem({required this.itemID,
-    required this.itemName,
-    required this.price,
-    required this.imageURL});
+  CartItem({required this.dataObj});
 
-  final String itemID;
-  final String itemName;
-  final double price;
-  final String imageURL;
+  final dataObj;
 
   @override
   Widget build(BuildContext context) {
+    final String itemID = dataObj['itemID'];
+    final String itemName = dataObj['productName'];
+    final double price = dataObj['price'];
+    final String imageURL = dataObj['imageURL'];
+
     return SafeArea(
       child: Card(
         color: Colors.grey[200],
