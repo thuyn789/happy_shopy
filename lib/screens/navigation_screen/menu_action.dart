@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/auth_services.dart';
 import 'package:happy_shopy/screens/account_settings_screen/account_settings.dart';
 import 'package:happy_shopy/screens/add_product_screen/add_product.dart';
+import 'package:happy_shopy/screens/cart_screen/cart.dart';
 import 'package:happy_shopy/screens/home_screen/home.dart';
 import 'package:happy_shopy/screens/login_screen/login.dart';
 import 'package:happy_shopy/screens/manage_product_screen/manage_product.dart';
@@ -76,6 +77,15 @@ class MenuAction {
             context,
             MaterialPageRoute(
               builder: (context) => ManageProduct(
+                userObj: userObj,
+              ),
+            ));
+        break;
+      case 6:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Cart(
                 userObj: userObj,
               ),
             ));

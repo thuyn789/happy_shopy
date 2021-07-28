@@ -123,11 +123,12 @@ class _BuildTextFormState extends State<BuildTextForm> {
                   if (!_formkey.currentState!.validate()) {
                     return;
                   }
+                  double _intPrice = double.parse(_price.text);
                   bool successful = await DBServices().addProduct(
                       _productName.text,
                       _imageURL.text,
                       _brand.text,
-                      _price.text);
+                      _intPrice);
 
                   if (successful) {
                     _productName.clear();

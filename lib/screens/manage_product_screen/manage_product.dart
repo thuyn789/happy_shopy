@@ -59,7 +59,7 @@ class _ManageProductState extends State<ManageProduct> {
                     physics: BouncingScrollPhysics(),
                     children:
                     snapshot.data!.docs.map((DocumentSnapshot document) {
-                      final data = document.data() as Map<String, dynamic>;
+                      final data = document.data() as Map<dynamic, dynamic>;
                       return BuildCardItem(
                           itemID: data['id'],
                           itemName: data['name'],

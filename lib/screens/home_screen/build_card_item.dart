@@ -11,7 +11,7 @@ class BuildCardItem extends StatelessWidget {
   final String itemID;
   final String itemName;
   final String brand;
-  final String price;
+  final double price;
   final String imageURL;
 
   @override
@@ -72,7 +72,7 @@ class BuildCardItem extends StatelessWidget {
                     IconButton(
                       onPressed: () async {
                         DBServices().addToCart(
-                            itemID, itemName, imageURL, price);
+                            itemID, itemName, 1, imageURL, price);
 
                         buildSnackBar(context, 'Added to cart');
                       },
