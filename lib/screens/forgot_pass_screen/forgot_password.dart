@@ -150,4 +150,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

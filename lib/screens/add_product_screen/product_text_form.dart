@@ -171,4 +171,10 @@ class _ProductTextFormState extends State<ProductTextForm> {
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

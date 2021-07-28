@@ -41,10 +41,10 @@ class _UserProfileState extends State<UserProfilePage> {
       drawer: NavigationDrawer(
         userObj: widget.userObj,
       ),
-      body: FadeAnimation(
-        1.0,
-        Center(
-          child: Container(
+      body: Center(
+        child: FadeAnimation(
+          1.0,
+          Container(
             width: 500,
             child: UserTextForm(
               firstName: widget.userObj['first_name'],
@@ -56,5 +56,11 @@ class _UserProfileState extends State<UserProfilePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

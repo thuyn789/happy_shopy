@@ -40,15 +40,21 @@ class _AccountSettingsState extends State<AccountSettings> {
       drawer: NavigationDrawer(
         userObj: widget.userObj,
       ),
-      body: FadeAnimation(
-        1.0,
-        Center(
-          child: Container(
+      body: Center(
+        child: FadeAnimation(
+          1.0,
+          Container(
             width: 500,
             child: AccountTextForm(),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

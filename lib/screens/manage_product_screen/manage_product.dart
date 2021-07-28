@@ -37,17 +37,25 @@ class _ManageProductState extends State<ManageProduct> {
       drawer: NavigationDrawer(
         userObj: widget.userObj,
       ),
-      body: FadeAnimation(
-        2.3,
-        Center(
-          child: Container(
+      body: Center(
+        child: FadeAnimation(
+          2.3,
+          Container(
             width: 500, //for web app screen
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             decoration: BoxDecoration(color: Colors.grey[200]),
-            child: ProductStream(widgetSwitch: 1,),
+            child: ProductStream(
+              widgetSwitch: 1,
+            ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

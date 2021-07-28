@@ -49,14 +49,22 @@ class DBServices {
     }
   }
 
-  Future<bool> removeFromCart(String itemID) async {
+  Future<bool> removeFromCart(String itemID, double price, int quantity) async {
     try {
-      await _database
-          .collection('orders')
-          .doc(_auth.currentUser!.uid)
-          .collection('cart')
-          .doc(itemID)
-          .delete();
+      final _snapshot =
+          _database.collection('orders').doc(_auth.currentUser!.uid);
+
+      //Update cart count and subtotal
+      await _snapshot.get().then((DocumentSnapshot doc) {
+        final docObj = doc.data() as Map<dynamic, dynamic>;
+        int cartCount = docObj['cartCount'] - quantity;
+        double subtotal = docObj['cartSubtotal'] - (price * quantity);
+        subtotal = double.parse(subtotal.toStringAsFixed(2));
+        _snapshot.update({'cartCount': cartCount, 'cartSubtotal': subtotal});
+      });
+
+      //Delete item from cart
+      await _snapshot.collection('cart').doc(itemID).delete();
       return true;
     } catch (e) {
       print(e);
@@ -64,22 +72,49 @@ class DBServices {
     }
   }
 
-  Future<bool> addToCart(
-      String itemID, String productName, int quantity, String imageURL, double price) async {
+  Future<bool> addToCart(String itemID, String productName, int quantity,
+      String imageURL, double price) async {
     try {
-      final _documentSnapshot = _database
-          .collection('orders')
-          .doc(_auth.currentUser!.uid)
-          .collection('cart')
-          .doc(itemID);
+      final _documentSnapshot =
+          _database.collection('orders').doc(_auth.currentUser!.uid);
 
-      await _documentSnapshot.get().then((DocumentSnapshot document) {
-        if(document.exists){
+      await _documentSnapshot
+          .collection('cart')
+          .doc(itemID)
+          .get()
+          .then((DocumentSnapshot document) {
+        if (document.exists) {
           final docObj = document.data() as Map<dynamic, dynamic>;
-          int cartQuantity = docObj['quantity'] + 1;
-          _documentSnapshot.update({'quantity': cartQuantity});
-        }else{
-          _documentSnapshot.set({
+          //Update item quantity if item was previously added
+          int cartQuantity = docObj['quantity'] + quantity;
+          _documentSnapshot
+              .collection('cart')
+              .doc(itemID)
+              .update({'quantity': cartQuantity});
+
+          //Update subtotal to parent document of cart collection
+          _documentSnapshot.get().then((DocumentSnapshot doc) {
+            final docObj = doc.data() as Map<dynamic, dynamic>;
+            int cartCount = docObj['cartCount'] + quantity;
+            double subtotal = docObj['cartSubtotal'] + price;
+            subtotal = double.parse(subtotal.toStringAsFixed(2));
+            _documentSnapshot
+                .update({'cartCount': cartCount, 'cartSubtotal': subtotal});
+          });
+        } else {
+          //If item was not added before, add it to cart
+          //Update Cart counter and subtotal to parent document of cart collection
+          _documentSnapshot.get().then((DocumentSnapshot doc) {
+            final docObj = doc.data() as Map<dynamic, dynamic>;
+            int cartCount = docObj['cartCount'] + quantity;
+            double subtotal = docObj['cartSubtotal'] + price;
+            subtotal = double.parse(subtotal.toStringAsFixed(2));
+            _documentSnapshot
+                .update({'cartCount': cartCount, 'cartSubtotal': subtotal});
+          });
+
+          //Add item to cart collection
+          _documentSnapshot.collection('cart').doc(itemID).set({
             'itemID': itemID,
             'productName': productName,
             'price': price,
@@ -97,12 +132,15 @@ class DBServices {
 
   Future<void> emptyCart() async {
     try {
-      await _database
-          .collection('orders')
-          .doc(_auth.currentUser!.uid)
-          .collection('cart')
-          .get()
-          .then((snapshot) {
+      final _snapshot =
+          _database.collection('orders').doc(_auth.currentUser!.uid);
+
+      //Reset cart counter and subtotal
+      await _snapshot.get().then((DocumentSnapshot doc) {
+        _snapshot.update({'cartCount': 0, 'cartSubtotal': 0.00});
+      });
+
+      await _snapshot.collection('cart').get().then((snapshot) {
         for (DocumentSnapshot doc in snapshot.docs) {
           doc.reference.delete();
         }
@@ -112,49 +150,54 @@ class DBServices {
     }
   }
 
-  Future<double> cartSubtotal () async {
+  Future<double> cartSubtotal() async {
     try {
       double subtotal = 0;
       await _database
           .collection('orders')
           .doc(_auth.currentUser!.uid)
-          .collection('cart')
           .get()
           .then((snapshot) {
-        for (DocumentSnapshot doc in snapshot.docs) {
-          final docObj = doc.data() as Map<dynamic, dynamic>;
-          subtotal += docObj['price'];
-        }
+        final docObj = snapshot.data() as Map<dynamic, dynamic>;
+        subtotal = docObj['cartSubtotal'];
       });
       return subtotal;
     } catch (e) {
       print(e);
-      return 0;
+      return 0.00;
     }
   }
 
-  Future<int> itemInCartCount() async {
+  Future<void> cartCount() async {
     try {
-      int cartLength = await _database
+      await _database
           .collection('orders')
           .doc(_auth.currentUser!.uid)
-          .collection('cart')
-          .orderBy('productName')
-          .snapshots().length;
-      return cartLength;
+          .get()
+          .then((snapshot) {
+        final docObj = snapshot.data() as Map<dynamic, dynamic>;
+        print(docObj['cartCount']);
+      });
     } catch (e) {
       print(e);
-      return 0;
     }
   }
 
-  //Create a stream that listens to message changes
-  Stream<QuerySnapshot> retrieveCartStream() {
+  //Retrieve all items in the cart via a stream
+  Stream<QuerySnapshot> cartStream() {
     return _database
         .collection('orders')
         .doc(_auth.currentUser!.uid)
         .collection('cart')
         .orderBy('productName')
+        .snapshots();
+  }
+
+  //Retrieve cart info, such as subtotal, item count, etc... via a stream
+  Stream<DocumentSnapshot> cartInfoStream() {
+    return _database
+        .collection('orders')
+        .doc(_auth.currentUser!.uid)
         .snapshots();
   }
 
@@ -166,11 +209,8 @@ class DBServices {
         .snapshots();
   }
 
-  //Create a product stream
+  //Retrieve all items that are listed for sale
   Stream<QuerySnapshot> productStream() {
-    return _database
-        .collection('products')
-        .orderBy('name')
-        .snapshots();
+    return _database.collection('products').orderBy('name').snapshots();
   }
 }

@@ -12,6 +12,7 @@ class CartItem extends StatelessWidget {
     final String itemName = dataObj['productName'];
     final double price = dataObj['price'];
     final String imageURL = dataObj['imageURL'];
+    final int quantity = dataObj['quantity'];
 
     return SafeArea(
       child: Card(
@@ -26,20 +27,20 @@ class CartItem extends StatelessWidget {
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(''),
+              Text('Quantity: $quantity'),
               Text('\$$price'),
             ],
           ),
-          trailing: buildIconButton(context, itemID),
+          trailing: buildIconButton(context, itemID, price, quantity),
         ),
       ),
     );
   }
 
-  Widget buildIconButton(BuildContext context, String itemID) {
+  Widget buildIconButton(BuildContext context, String itemID, double price, int quantity) {
     return IconButton(
         onPressed: () async {
-          bool successful = await DBServices().removeFromCart(itemID);
+          bool successful = await DBServices().removeFromCart(itemID, price, quantity);
 
           if(successful){
             buildSnackBar(context, 'Item Deleted');

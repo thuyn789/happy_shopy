@@ -172,4 +172,10 @@ class _UserTextFormState extends State<UserTextForm> {
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

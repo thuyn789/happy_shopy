@@ -157,4 +157,10 @@ class _AccountTextFormState extends State<AccountTextForm> {
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

@@ -54,10 +54,10 @@ class _HomePageState extends State<HomePage> {
       drawer: NavigationDrawer(
         userObj: widget.userObj,
       ),
-      body: FadeAnimation(
-        2.3,
-        Center(
-          child: Container(
+      body: Center(
+        child: FadeAnimation(
+          2.3,
+          Container(
             width: 500, //for web app screen
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
             decoration: BoxDecoration(color: Colors.grey[200]),
@@ -66,5 +66,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }
