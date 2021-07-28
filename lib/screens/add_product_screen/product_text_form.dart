@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:happy_shopy/firebase_api/auth_services.dart';
+import 'package:happy_shopy/firebase_api/db_services.dart';
 
-class BuildTextForm extends StatefulWidget {
+class ProductTextForm extends StatefulWidget {
   @override
-  _BuildTextFormState createState() => _BuildTextFormState();
+  _ProductTextFormState createState() => _ProductTextFormState();
 }
 
-class _BuildTextFormState extends State<BuildTextForm> {
+class _ProductTextFormState extends State<ProductTextForm> {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
-    TextEditingController _email = TextEditingController();
-    TextEditingController _password = TextEditingController();
-    TextEditingController _passwordAgain = TextEditingController();
+    TextEditingController _productName = TextEditingController();
+    TextEditingController _imageURL = TextEditingController();
+    TextEditingController _brand = TextEditingController();
+    TextEditingController _price = TextEditingController();
 
     final _color = Colors.blueAccent;
     final _fontWeight = FontWeight.bold;
@@ -27,7 +28,7 @@ class _BuildTextFormState extends State<BuildTextForm> {
             SizedBox(height: 35),
             Center(
               child: Text(
-                'Update Login Credential',
+                'Add New Product',
                 style: TextStyle(
                   fontSize: 30,
                   color: _color,
@@ -46,20 +47,16 @@ class _BuildTextFormState extends State<BuildTextForm> {
             ),
             SizedBox(height: 20),
             TextFormField(
-              controller: _email,
+              controller: _productName,
               decoration: InputDecoration(
-                hintText: 'name@email.com',
-                hintStyle: TextStyle(
-                  color: _color,
-                ),
-                labelText: 'Email Address',
+                labelText: 'Product Name',
                 labelStyle: TextStyle(
                   color: _color,
                 ),
               ),
               validator: (value) {
-                if (value!.isEmpty && value.length <= 8) {
-                  return 'Please enter your email';
+                if (value!.isEmpty) {
+                  return 'Please enter product name';
                 } else {
                   return null;
                 }
@@ -67,19 +64,16 @@ class _BuildTextFormState extends State<BuildTextForm> {
             ),
             SizedBox(height: 5),
             TextFormField(
-              obscureText: true,
-              controller: _password,
+              controller: _brand,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Brand',
                 labelStyle: TextStyle(
                   color: _color,
                 ),
               ),
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'Please enter your password';
-                } else if (value.length < 8) {
-                  return 'Password must be 8 characters or more';
+                  return 'Please enter product brand';
                 } else {
                   return null;
                 }
@@ -87,21 +81,33 @@ class _BuildTextFormState extends State<BuildTextForm> {
             ),
             SizedBox(height: 5),
             TextFormField(
-              obscureText: true,
-              controller: _passwordAgain,
+              controller: _price,
               decoration: InputDecoration(
-                labelText: 'Password Again',
+                labelText: 'Price',
                 labelStyle: TextStyle(
                   color: _color,
                 ),
               ),
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'Please enter your password';
-                } else if (value.length < 8) {
-                  return 'Password must be 8 characters or more';
-                } else if (_password.text != value) {
-                  return 'Your password does not match';
+                  return 'Please enter product price';
+                } else {
+                  return null;
+                }
+              },
+            ),
+            SizedBox(height: 5),
+            TextFormField(
+              controller: _imageURL,
+              decoration: InputDecoration(
+                labelText: 'Image URL',
+                labelStyle: TextStyle(
+                  color: _color,
+                ),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter image URL';
                 } else {
                   return null;
                 }
@@ -111,26 +117,34 @@ class _BuildTextFormState extends State<BuildTextForm> {
             Container(
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  color: _color),
+                  borderRadius: BorderRadius.circular(25.0), color: _color),
               child: MaterialButton(
                 onPressed: () async {
                   if (!_formkey.currentState!.validate()) {
                     return;
                   }
-                  bool successful = await AuthServices().updateLoginCredential(
-                      _email.text.trim(), _password.text.trim());
+                  double _intPrice = double.parse(_price.text);
+                  bool successful = await DBServices().addProduct(
+                      _productName.text,
+                      _imageURL.text,
+                      _brand.text,
+                      _intPrice);
 
                   if (successful) {
-                    buildSnackBar(context, 'Update Successful');
+                    _productName.clear();
+                    _imageURL.clear();
+                    _brand.clear();
+                    _price.clear();
+
+                    buildSnackBar(context, 'Product Added Successful');
                   } else {
                     buildSnackBar(context, 'Error! Please try again later');
                   }
                 },
                 child: Text(
                   'Submit',
-                  style: TextStyle(
-                      fontWeight: _fontWeight, color: Colors.white),
+                  style:
+                      TextStyle(fontWeight: _fontWeight, color: Colors.white),
                 ),
               ),
             ),

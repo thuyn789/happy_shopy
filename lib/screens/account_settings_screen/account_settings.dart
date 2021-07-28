@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
-import 'package:happy_shopy/screens/account_settings_screen/build_text_form.dart';
+import 'package:happy_shopy/screens/account_settings_screen/account_text_form.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
 
 class AccountSettings extends StatefulWidget {
@@ -45,7 +45,7 @@ class _AccountSettingsState extends State<AccountSettings> {
         Center(
           child: Container(
             width: 500,
-            child: BuildTextForm(),
+            child: AccountTextForm(),
           ),
         ),
       ),

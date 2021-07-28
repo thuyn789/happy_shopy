@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
-import 'package:happy_shopy/screens/home_screen/build_card_item.dart';
+import 'package:happy_shopy/screens/home_screen/home_product_item.dart';
 import 'package:happy_shopy/screens/navigation_screen/menu_action.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
 
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                     children:
                         snapshot.data!.docs.map((DocumentSnapshot document) {
                       final data = document.data() as Map<dynamic, dynamic>;
-                      return BuildCardItem(
+                      return HomeProductItem(
                           itemID: data['id'],
                           itemName: data['name'],
                           brand: data['brand'],

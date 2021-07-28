@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
-class BuildCardItem extends StatelessWidget {
-  BuildCardItem({required this.itemID,
+class HomeProductItem extends StatelessWidget {
+  HomeProductItem({required this.itemID,
     required this.itemName,
     required this.brand,
     required this.price,

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
-class BuildCardItem extends StatelessWidget {
-  BuildCardItem({required this.itemID,
+class MangeProductItem extends StatelessWidget {
+  MangeProductItem({required this.itemID,
     required this.itemName,
+    required this.brand,
     required this.price,
     required this.imageURL});
 
   final String itemID;
   final String itemName;
+  final String brand;
   final double price;
   final String imageURL;
 
@@ -27,7 +29,7 @@ class BuildCardItem extends StatelessWidget {
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(''),
+              Text(brand),
               Text('\$$price'),
             ],
           ),
@@ -40,7 +42,7 @@ class BuildCardItem extends StatelessWidget {
   Widget buildIconButton(BuildContext context, String itemID) {
     return IconButton(
         onPressed: () async {
-          bool successful = await DBServices().removeFromCart(itemID);
+          bool successful = await DBServices().deleteProductFromListing(itemID);
 
           if(successful){
             buildSnackBar(context, 'Item Deleted');

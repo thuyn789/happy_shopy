@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
-import 'package:happy_shopy/screens/cart_screen/build_card_item.dart';
+import 'package:happy_shopy/screens/cart_screen/cart_item.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
 
 class Cart extends StatefulWidget {
@@ -60,7 +60,7 @@ class _CartState extends State<Cart> {
                     children:
                     snapshot.data!.docs.map((DocumentSnapshot document) {
                       final data = document.data() as Map<dynamic, dynamic>;
-                      return BuildCardItem(
+                      return CartItem(
                           itemID: data['itemID'],
                           itemName: data['productName'],
                           price: data['price'],

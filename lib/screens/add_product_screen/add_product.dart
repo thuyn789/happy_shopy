@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
-import 'package:happy_shopy/screens/add_product_screen/build_text_form.dart';
+import 'package:happy_shopy/screens/add_product_screen/product_text_form.dart';
 
 class AddProduct extends StatefulWidget {
   AddProduct({required this.userObj});
@@ -42,7 +42,7 @@ class _AddProductState extends State<AddProduct> {
       body: Center(
         child: Container(
           width: 500,
-          child: BuildTextForm(),
+          child: ProductTextForm(),
         ),
       ),
     );

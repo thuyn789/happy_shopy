@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
-import 'package:happy_shopy/screens/user_profile_screen/build_text_form.dart';
+import 'package:happy_shopy/screens/user_profile_screen/user_text_form.dart';
 
 class UserProfilePage extends StatefulWidget {
   UserProfilePage({
@@ -46,7 +46,7 @@ class _UserProfileState extends State<UserProfilePage> {
         Center(
           child: Container(
             width: 500,
-            child: BuildTextForm(
+            child: UserTextForm(
               firstName: widget.userObj['first_name'],
               lastName: widget.userObj['last_name'],
               email: widget.userObj['email'],

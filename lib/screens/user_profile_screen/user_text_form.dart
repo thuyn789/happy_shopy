@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
-class BuildTextForm extends StatefulWidget {
-  BuildTextForm(
+class UserTextForm extends StatefulWidget {
+  UserTextForm(
       {required this.firstName,
       required this.lastName,
       required this.email,
@@ -15,10 +15,10 @@ class BuildTextForm extends StatefulWidget {
   final urlAvatar;
 
   @override
-  _BuildTextFormState createState() => _BuildTextFormState();
+  _UserTextFormState createState() => _UserTextFormState();
 }
 
-class _BuildTextFormState extends State<BuildTextForm> {
+class _UserTextFormState extends State<UserTextForm> {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
