@@ -104,6 +104,10 @@ var firebaseConfig = {
 
 - The root widget: main.dart
 - After login, the app will bring user to a home screen to browser products
+- All other screens will be accessible as options via the navigation drawer
+  + These options will be available to users based on their role.
+  + The options for the base role of users, which is 'customer', will be available to all other roles of users.
+- Users will be able to see their shopping cart on different devices as long as they use the same login credential.  For example, users can add an item to cart on their mobile devices, and they can also see the same item on web app and checkout on web app if they prefer.
 
 
 ## Login Credentials for Demo Accounts
