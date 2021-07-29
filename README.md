@@ -14,9 +14,11 @@ A online shopping app that offers a good shopping experience
 ## Credits
 
 - https://codelabs.developers.google.com/codelabs/flutter
-- https://www.filledstacks.com/post/building-flutter-login-and-sign-up-forms/
 - https://firebase.flutter.dev/docs/auth/usage
 - https://firebase.flutter.dev/docs/firestore/usage
+- https://github.com/SimformSolutionsPvtLtd/flutter_credit_card
+- https://pub.dev/packages/flutter_credit_card
+- https://www.filledstacks.com/post/building-flutter-login-and-sign-up-forms/
 - https://www.youtube.com/playlist?list=PL4cUxeGkcC9jLYyp2Aoh6hcWuxFDX6PBJ
 - https://www.youtube.com/watch?v=fi2WkznwWbc
 - https://www.youtube.com/watch?v=NHAIiAmxTAU
@@ -47,10 +49,12 @@ https://github.com/thuyn789/happy_shopy
 flutter:
     sdk: flutter
 cloud_firestore: ^2.4.0
+flutter_credit_card: ^2.0.0
 firebase_auth: ^3.0.1
 firebase_core: ^1.4.0
 google_sign_in: ^5.0.5
 simple_animations: ^3.1.1
+
 
 
 ## Dev_Dependencies

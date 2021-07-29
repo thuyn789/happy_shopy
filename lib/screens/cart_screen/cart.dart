@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
@@ -37,22 +36,7 @@ class _CartState extends State<Cart> {
             fontWeight: _fontWeight,
           ),
         ),
-        actions: [
-          TextButton.icon(
-            onPressed: () async {await DBServices().emptyCart();},
-            icon: Icon(
-              Icons.remove_shopping_cart,
-              color: _color,
-            ),
-            label: Text(
-              'Empty Cart',
-              style: TextStyle(fontWeight: FontWeight.bold, color: _color),
-            ),
-            style: TextButton.styleFrom(
-              primary: Colors.white,
-            ),
-          )
-        ],
+        actions: [emptyCartButton()],
       ),
       drawer: NavigationDrawer(
         userObj: widget.userObj,
@@ -72,22 +56,7 @@ class _CartState extends State<Cart> {
                     child: CartStream(),
                   ),
                 ),
-                Divider(
-                  color: Colors.brown,
-                  thickness: 2,
-                  indent: 15,
-                  endIndent: 15,
-                ),
                 CartInfoStream(),
-                Divider(
-                  color: Colors.brown,
-                  thickness: 2,
-                  indent: 15,
-                  endIndent: 15,
-                ),
-                SizedBox(height: 25),
-                checkoutButton(context),
-                SizedBox(height: 25),
               ],
             ),
           ),
@@ -95,25 +64,20 @@ class _CartState extends State<Cart> {
       ),
     );
   }
-  
-  Widget checkoutButton(BuildContext context) {
-    return Container(
-      height: 45,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Colors.blueAccent),
-      child: MaterialButton(
-        onPressed: () {
-          print('Checkout');
-          //await DBServices().emptyCart();
-        },
-        child: Text(
-          'Proceed to Checkout',
-          style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
-        ),
+
+  Widget emptyCartButton() {
+    return TextButton.icon(
+      onPressed: () async {await DBServices().emptyCart();},
+      icon: Icon(
+        Icons.remove_shopping_cart,
+        color: Colors.brown,
+      ),
+      label: Text(
+        'Empty Cart',
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
+      ),
+      style: TextButton.styleFrom(
+        primary: Colors.white,
       ),
     );
   }
