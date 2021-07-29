@@ -44,6 +44,12 @@ https://github.com/thuyn789/happy_shopy
 - Anonymous sign-in
 
 
+## API
+
+- Firebase API: Authentication, Cloud Firestore, Storage
+- Stripe Payment API via stripe_payment package
+
+
 ## Dependencies
 
 flutter:
@@ -54,7 +60,7 @@ firebase_auth: ^3.0.1
 firebase_core: ^1.4.0
 google_sign_in: ^5.0.5
 simple_animations: ^3.1.1
-
+stripe_payment: ^1.1.4
 
 
 ## Dev_Dependencies
