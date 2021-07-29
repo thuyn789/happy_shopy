@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:stripe_payment/stripe_payment.dart';
 
 class CartInfo extends StatelessWidget {
   CartInfo({required this.dataObj});
 
   final dataObj;
+
+  //Stripe payment API variables
+  final String _currentSecret =
+      'sk_test_51JIOKcBvtwxGXPVddTdgl0rRcXidwOK9bcu8SmZBDwiObo23VNrFU9xo3X1WKUsBaqssDzVN7Etq644cQimEx40Z00LjaeZHkW';
+  final String _publishableKey =
+      'pk_test_51JIOKcBvtwxGXPVdOlojQ9Mfq1ysKOjP9MRdhqKWv3NEMPabSyh3cwv3y2GSzqSN307RXDvJbGtwYzM35oH3iTQk00Z0OEro90';
 
   @override
   Widget build(BuildContext context) {
@@ -118,9 +125,19 @@ class CartInfo extends StatelessWidget {
       child: MaterialButton(
         onPressed: () {
           print('Checkout');
+          initializeStripPayment();
+
+          StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest())
+              .then((paymentMethod) {
+                final _paymentMethod = paymentMethod.toJson();
+                final _cardInfo = _paymentMethod['card'];
+
+                print(_paymentMethod);
+                print(_cardInfo);
+          });
         },
         child: Text(
-          'Proceed to Checkout',
+          'Proceed to Pay',
           style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -128,5 +145,12 @@ class CartInfo extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void initializeStripPayment() {
+    StripePayment.setOptions(StripeOptions(
+        publishableKey: _publishableKey,
+        merchantId: "Your_Merchant_id",
+        androidPayMode: 'test'));
   }
 }
