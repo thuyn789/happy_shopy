@@ -9,6 +9,22 @@ class AuthServices {
   final String _urlDefaultAvatar =
       "https://firebasestorage.googleapis.com/v0/b/supercool-rental.appspot.com/o/profile_photos%2Fdefault_profile_photo.jpg?alt=media&token=e4a7ba40-4b36-49b4-a13c-a83c46f11b42";
 
+  //After creating user's login credential, initialize user's database
+  Future<void> initializeUserDB() async {
+    try {
+      await _database
+          .collection('orders')
+          .doc(_auth.currentUser!.uid)
+          .set({
+        'cartCount' : 0,
+        'cartSubtotal' : 0,
+        'orderCount' : 0,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   //Login with existing username and password credential
   Future<bool> login(String email, String password) async {
     try {
@@ -54,6 +70,7 @@ class AuthServices {
         'reg_date_time': gUser.metadata.creationTime,
         'urlAvatar': _urlDefaultAvatar.trim()
       });
+      await initializeUserDB();
     }
 
     // Once signed in, return the google user
@@ -78,6 +95,7 @@ class AuthServices {
         'reg_date_time': anonUser.metadata.creationTime,
         'urlAvatar': _urlDefaultAvatar.trim()
       });
+      await initializeUserDB();
     }
 
     // Once signed in, return the google user
@@ -103,6 +121,7 @@ class AuthServices {
           'reg_date_time': user.metadata.creationTime,
           'urlAvatar': _urlDefaultAvatar.trim()
         });
+        await initializeUserDB();
       });
       return true;
     } catch (e) {

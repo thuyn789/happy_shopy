@@ -23,7 +23,7 @@ class OrderInfoStream extends StatelessWidget {
                 return Center(child: Text('Something went wrong'));
               } else if (snapshot.hasData && !snapshot.data!.exists) {
                 return Center(child: Text("This order does not exist"));
-              } else if (snapshot.connectionState == ConnectionState.done) {
+              } else if (snapshot.hasData) {
                 final dataObj = snapshot.data!.data() as Map<dynamic, dynamic>;
                 return OrderInfo(dataObj: dataObj);
               } else {

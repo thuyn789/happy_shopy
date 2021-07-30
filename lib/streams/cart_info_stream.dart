@@ -23,6 +23,8 @@ class CartInfoStream extends StatelessWidget {
               if (snapshot.hasError) {
                 print(snapshot.error);
                 return Center(child: Text('Something went wrong'));
+              } else if (snapshot.hasData && !snapshot.data!.exists) {
+                return Center(child: Text("Please add something to cart"));
               } else if (snapshot.hasData) {
                 final dataObj = snapshot.data!.data() as Map<dynamic, dynamic>;
                 return CartInfo(dataObj: dataObj, userObj: userObj,);

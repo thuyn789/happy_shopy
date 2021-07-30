@@ -26,11 +26,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-/**
- * Todo list:
- *
- * Users: Checkout, Order Confirmation
- * CS: Modifying Customer’s order
- * Admin: Modifying Customer’s order, Admin Update User Info
- */
