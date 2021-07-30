@@ -70,10 +70,14 @@ class HomeProductItem extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () async {
-                        DBServices().addToCart(
+                        bool successful = await DBServices().addToCart(
                             itemID, itemName, 1, imageURL, price);
 
-                        buildSnackBar(context, 'Added to cart');
+                        if(successful){
+                          buildSnackBar(context, 'Added to cart');
+                        }else{
+                          buildSnackBar(context, 'Cart cannot hold more items');
+                        }
                       },
                       icon: Icon(
                         Icons.add_shopping_cart,

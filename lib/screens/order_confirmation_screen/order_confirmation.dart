@@ -1,41 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/animation/FadeAnimation.dart';
-import 'package:happy_shopy/firebase_api/db_services.dart';
 import 'package:happy_shopy/screens/navigation_screen/navigation_drawer.dart';
-import 'package:happy_shopy/streams/cart_info_stream.dart';
-import 'package:happy_shopy/streams/cart_stream.dart';
+import 'package:happy_shopy/streams/order_info_stream.dart';
+import 'package:happy_shopy/streams/order_items_stream.dart';
 
-class Cart extends StatefulWidget {
-  Cart({
-    required this.userObj,
-  });
+class OrderConfirmation extends StatefulWidget {
+  OrderConfirmation({required this.userObj, required this.orderNumber});
 
   //User Object - A map of DocumentSnapshot
   //Contain user information, name, uid, and email
   final userObj;
+  final String orderNumber;
 
   @override
-  _CartState createState() => _CartState();
+  _OrderConfirmationState createState() => _OrderConfirmationState();
 }
 
-class _CartState extends State<Cart> {
+class _OrderConfirmationState extends State<OrderConfirmation> {
   @override
   Widget build(BuildContext context) {
     final _color = Colors.brown;
-    final _fontWeight = FontWeight.bold;
+    final _backgroundColor = Colors.orangeAccent[100];
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: _color),
-        backgroundColor: Colors.orangeAccent[100],
+        backgroundColor: _backgroundColor,
         title: Text(
-          'Cart',
+          'Order Details',
           style: TextStyle(
             fontSize: 25,
             color: _color,
-            fontWeight: _fontWeight,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [emptyCartButton()],
       ),
       drawer: NavigationDrawer(
         userObj: widget.userObj,
@@ -49,34 +46,18 @@ class _CartState extends State<Cart> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+
                 Flexible(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: CartStream(),
+                    child: OrderItemStream(orderNumber: widget.orderNumber, userObj: widget.userObj,),
                   ),
                 ),
-                CartInfoStream(userObj: widget.userObj,),
+                OrderInfoStream(orderNumber: widget.orderNumber),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget emptyCartButton() {
-    return TextButton.icon(
-      onPressed: () async {await DBServices().emptyCart();},
-      icon: Icon(
-        Icons.remove_shopping_cart,
-        color: Colors.brown,
-      ),
-      label: Text(
-        'Empty Cart',
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.brown),
-      ),
-      style: TextButton.styleFrom(
-        primary: Colors.white,
       ),
     );
   }

@@ -49,11 +49,6 @@ class MenuAdmin extends StatelessWidget {
             title: Text('Modify Order', style: TextStyle(color: _color)),
             onTap: () => print('Modify Order'),
           ),
-          ListTile(
-            leading: Icon(Icons.person_pin_rounded, color: _color),
-            title: Text('Modify User Info', style: TextStyle(color: _color)),
-            onTap: () => print('Modify User Info'),
-          ),
         ],
       ),
     );

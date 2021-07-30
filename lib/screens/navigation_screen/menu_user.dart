@@ -21,6 +21,11 @@ class MenuUser extends StatelessWidget {
             onTap: () => MenuAction().menuAction(context, 0, userObj),
           ),
           ListTile(
+            leading: Icon(Icons.message, color: _color),
+            title: Text('Your Orders', style: TextStyle(color: _color)),
+            onTap: () => {},
+          ),
+          ListTile(
             leading: Icon(Icons.person_pin_rounded, color: _color),
             title: Text('User Profile', style: TextStyle(color: _color)),
             onTap: () => MenuAction().menuAction(context, 1, userObj),

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:stripe_payment/stripe_payment.dart';
+import 'package:happy_shopy/firebase_api/db_services.dart';
+import 'package:happy_shopy/payment_api/stripe_payment_services.dart';
+import 'package:happy_shopy/screens/order_confirmation_screen/order_confirmation.dart';
 
 class CartInfo extends StatelessWidget {
-  CartInfo({required this.dataObj});
+  CartInfo({required this.dataObj, required this.userObj});
 
   final dataObj;
 
-  //Stripe payment API variables
-  final String _currentSecret =
-      'sk_test_51JIOKcBvtwxGXPVddTdgl0rRcXidwOK9bcu8SmZBDwiObo23VNrFU9xo3X1WKUsBaqssDzVN7Etq644cQimEx40Z00LjaeZHkW';
-  final String _publishableKey =
-      'pk_test_51JIOKcBvtwxGXPVdOlojQ9Mfq1ysKOjP9MRdhqKWv3NEMPabSyh3cwv3y2GSzqSN307RXDvJbGtwYzM35oH3iTQk00Z0OEro90';
+  //User Object - A map of DocumentSnapshot
+  //Contain user information, name, uid, and email
+  final userObj;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,15 @@ class CartInfo extends StatelessWidget {
     shipping = double.parse(shipping.toStringAsFixed(2));
     tax = double.parse(tax.toStringAsFixed(2));
     total = double.parse(total.toStringAsFixed(2));
+
+    final _cartInfo = ({
+      'itemCount': itemCount,
+      'subtotal': subtotal,
+      'shipping': shipping,
+      'tax': tax,
+      'taxRate': taxRate,
+      'total': total,
+    });
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -52,9 +62,14 @@ class CartInfo extends StatelessWidget {
                     Row(
                       children: [
                         Text('Total:    ', style: textStyle),
-                        itemCount < 2 ?
-                        Text('$itemCount item', style: textStyle) :
-                        Text('$itemCount items', style: textStyle),
+                        itemCount < 2
+                            ? Text('$itemCount item', style: textStyle)
+                            : Text('$itemCount items', style: textStyle),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text('(Maximum 15 items)', style: textStyle),
                       ],
                     ),
                   ],
@@ -68,7 +83,10 @@ class CartInfo extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Subtotal:', style: textStyle,),
+                        Text(
+                          'Subtotal:',
+                          style: textStyle,
+                        ),
                         Text('\$$subtotal', style: textStyle),
                       ],
                     ),
@@ -109,48 +127,85 @@ class CartInfo extends StatelessWidget {
             endIndent: 5,
           ),
           SizedBox(height: 25),
-          checkoutButton(context),
+          payButton(context, total, _cartInfo),
           SizedBox(height: 25),
         ],
       ),
     );
   }
 
-  Widget checkoutButton(BuildContext context) {
+  Widget payButton(BuildContext context, double total, final cartInfo) {
     return Container(
       height: 45,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Colors.blueAccent),
+          borderRadius: BorderRadius.circular(25.0), color: Colors.blueAccent),
       child: MaterialButton(
-        onPressed: () {
-          print('Checkout');
-          initializeStripPayment();
+        onPressed: () async {
+          if (total <= 0) {
+            buildSnackBar(context, 'Please add something to cart');
+            return;
+          }
+          var _paymentInfo;
+          var _cardInfo;
 
-          StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest())
+          //Initialize Stripe services with Publishable key and Secret key
+          StripeServices().initializeStripePayment();
+
+          bool _successful = await StripePayment.paymentRequestWithCardForm(
+                  CardFormPaymentRequest())
               .then((paymentMethod) {
-                final _paymentMethod = paymentMethod.toJson();
-                final _cardInfo = _paymentMethod['card'];
+            _paymentInfo = paymentMethod.toJson();
+            _cardInfo = _paymentInfo['card'];
+            return true;
+          }).catchError(((error, stackTrace) {
+            return false;
+          }));
 
-                print(_paymentMethod);
-                print(_cardInfo);
-          });
+          if (_successful) {
+            String orderNumber = '${_paymentInfo['created']}';
+            buildSnackBar(context, 'Payment Charged Successful');
+
+            await DBServices()
+                .paymentConfirm(_paymentInfo, _cardInfo, cartInfo);
+
+            //Wait before go to order confirmation
+            await Future.delayed(const Duration(seconds: 1));
+
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => OrderConfirmation(
+                          userObj: userObj,
+                          orderNumber: orderNumber,
+                        )));
+          } else {
+            buildSnackBar(context, 'Payment Failed! Please try again!');
+          }
         },
         child: Text(
           'Proceed to Pay',
           style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
+              fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );
   }
 
-  void initializeStripPayment() {
-    StripePayment.setOptions(StripeOptions(
-        publishableKey: _publishableKey,
-        merchantId: "Your_Merchant_id",
-        androidPayMode: 'test'));
+  void buildSnackBar(BuildContext context, String text) {
+    var snackBar = SnackBar(
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 2),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.symmetric(vertical: 35, horizontal: 50),
+      shape: StadiumBorder(),
+      backgroundColor: Colors.grey[600],
+    );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 }
