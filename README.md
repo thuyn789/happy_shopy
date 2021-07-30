@@ -6,6 +6,7 @@ A online shopping app that offers a good shopping experience
 
 - All the bugs and not-working functions have been declared below to the best of my knowledge.  If you can find more bugs, please let me know
 - ***For testing purposes*** There are 3 login credentials below.
+- ***For testing purposes*** There are a few test credit card information below.
 - ***NOTICE*** Configuration for web app has changed to the newer version
 - To install splash screen, run the following command in flutter terminal:
   +  flutter pub run flutter_native_splash:create
@@ -128,7 +129,9 @@ var firebaseConfig = {
   + {brand, id, imageURL, name, price}
 - All items in cart are stored in orders -> userID -> cart
   + Cart information, such as item count, subtotal, etc are stored in userID, which the parent document of cart
-- All orders are stored in orders -> userID -> orders
+- All orders are stored in orders -> userID -> orders -> orderNumber
+- All items in an order are stored in orders -> userID -> orders -> orderNumber -> items
+
 
 ## Login Credentials for Demo Accounts
 
@@ -137,6 +140,29 @@ var firebaseConfig = {
 - Customer Support: support@email.com, password
 
 - Customer: customer@email.com, password
+
+
+## Basic Test Card Numbers
+
+- Visa
+  + 4242 4242 4242 4242
+  + CVC: Any 3 digits
+  + Exp: Any future date
+
+- Mastercard
+  + 5555 5555 5555 4444
+  + CVC: Any 3 digits
+  + Exp: Any future date
+
+- American Express
+  + 3782 822463 10005
+  + CVC: Any 4 digits
+  + Exp: Any future date
+
+- Discover
+  + 6011 1111 1111 1117
+  + CVC: Any 3 digits
+  + Exp: Any future date
 
 
 ## Bugs and Not Working
