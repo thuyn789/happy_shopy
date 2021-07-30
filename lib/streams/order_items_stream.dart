@@ -24,8 +24,12 @@ class OrderItemStream extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             children:
             snapshot.data!.docs.map((DocumentSnapshot document) {
-              final data = document.data() as Map<dynamic, dynamic>;
-              return OrderItem(dataObj: data, userObj: userObj,);
+              if(!document.exists) {
+                return Center(child: Text('This order does not exist'));
+              }else{
+                final data = document.data() as Map<dynamic, dynamic>;
+                return OrderItem(dataObj: data, userObj: userObj,);
+              }
             }).toList(),
           );
         });

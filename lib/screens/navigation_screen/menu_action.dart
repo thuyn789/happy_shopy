@@ -6,6 +6,7 @@ import 'package:happy_shopy/screens/cart_screen/cart.dart';
 import 'package:happy_shopy/screens/home_screen/home.dart';
 import 'package:happy_shopy/screens/login_screen/login.dart';
 import 'package:happy_shopy/screens/manage_product_screen/manage_product.dart';
+import 'package:happy_shopy/screens/modify_order_screen/modify_order.dart';
 import 'package:happy_shopy/screens/orders_screen/orders.dart';
 import 'package:happy_shopy/streams/init_stream.dart';
 
@@ -96,6 +97,15 @@ class MenuAction {
             context,
             MaterialPageRoute(
               builder: (context) => Orders(
+                userObj: userObj,
+              ),
+            ));
+        break;
+      case 8:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ModifyOrder(
                 userObj: userObj,
               ),
             ));

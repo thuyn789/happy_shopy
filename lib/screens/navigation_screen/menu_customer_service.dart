@@ -36,8 +36,8 @@ class MenuCustomerService extends StatelessWidget {
           SizedBox(height: 5),
           ListTile(
             leading: Icon(Icons.message, color: _color),
-            title: Text('Modifying Order', style: TextStyle(color: _color)),
-            onTap: () => MenuAction().menuAction(context, 0, userObj),
+            title: Text('Modify Order', style: TextStyle(color: _color)),
+            onTap: () => MenuAction().menuAction(context, 8, userObj),
           ),
         ],
       ),
