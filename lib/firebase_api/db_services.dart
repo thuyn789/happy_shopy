@@ -241,11 +241,24 @@ class DBServices {
   /// ORDERS
   ///
 
+  //Retrieve user's orders
+  Future<QuerySnapshot> retrieveOrders(String userID) async {
+    String _userID = userID == '' ? _auth.currentUser!.uid : userID;
+
+    return _database
+        .collection('orders')
+        .doc(_userID)
+        .collection('orders')
+        .get();
+  }
+
   //Cancel an item from an order
-  Future<bool> cancelItemFromOrder(String itemID, String orderNumber) async {
+  Future<bool> cancelItemFromOrder(String itemID, String orderNumber, String userID) async {
     try {
+      String _userID = userID == '' ? _auth.currentUser!.uid : userID;
+
       final _snapshot =
-          _database.collection('orders').doc(_auth.currentUser!.uid);
+          _database.collection('orders').doc(_userID);
 
       //Update the status to the item being cancel
       await _snapshot
@@ -299,19 +312,21 @@ class DBServices {
   ///
 
   //Retrieve all orders of a user
-  Stream<QuerySnapshot> orderStream() {
+  Stream<QuerySnapshot> orderStream(String userID) {
+    String _userID = userID == '' ? _auth.currentUser!.uid : userID;
     return _database
         .collection('orders')
-        .doc(_auth.currentUser!.uid)
+        .doc(_userID)
         .collection('orders')
         .snapshots();
   }
 
   //Retrieve all items in an orders
-  Stream<QuerySnapshot> orderItemStream(String orderNumber) {
+  Stream<QuerySnapshot> orderItemStream(String orderNumber, String userID) {
+    String _userID = userID == '' ? _auth.currentUser!.uid : userID;
     return _database
         .collection('orders')
-        .doc(_auth.currentUser!.uid)
+        .doc(_userID)
         .collection('orders')
         .doc(orderNumber)
         .collection('items')
@@ -320,10 +335,11 @@ class DBServices {
   }
 
   //Retrieve order info
-  Stream<DocumentSnapshot> orderInfoStream(String orderNumber) {
+  Stream<DocumentSnapshot> orderInfoStream(String orderNumber, String userID) {
+    String _userID = userID == '' ? _auth.currentUser!.uid : userID;
     return _database
         .collection('orders')
-        .doc(_auth.currentUser!.uid)
+        .doc(_userID)
         .collection('orders')
         .doc(orderNumber)
         .snapshots();

@@ -17,7 +17,7 @@ class OrderItem extends StatelessWidget {
     final String imageURL = dataObj['imageURL'];
     final int quantity = dataObj['quantity'];
     final String orderNumber = dataObj['order_number'];
-    final String status = dataObj['status'];
+    final String status = dataObj['status'] == null ? '' : dataObj['status'];
 
     return SafeArea(
       child: Card(
@@ -50,7 +50,7 @@ class OrderItem extends StatelessWidget {
     return IconButton(
         onPressed: () async {
           bool successful =
-          await DBServices().cancelItemFromOrder(itemID, orderNumber);
+          await DBServices().cancelItemFromOrder(itemID, orderNumber, '');
 
           if(successful){
             buildSnackBar(context, 'Item Canceled');

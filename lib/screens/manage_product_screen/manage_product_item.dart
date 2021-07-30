@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:happy_shopy/firebase_api/db_services.dart';
 
-class MangeProductItem extends StatelessWidget {
-  MangeProductItem({required this.dataObj});
+class ManageProductItem extends StatelessWidget {
+  ManageProductItem({required this.dataObj});
   
   final dataObj;
   

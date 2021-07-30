@@ -11,7 +11,7 @@ class OrderInfoStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-        stream: DBServices().orderInfoStream(orderNumber),
+        stream: DBServices().orderInfoStream(orderNumber, ''),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           switch (snapshot.connectionState) {

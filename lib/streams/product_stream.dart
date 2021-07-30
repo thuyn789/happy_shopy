@@ -34,7 +34,7 @@ class ProductStream extends StatelessWidget {
             children:
             snapshot.data!.docs.map((DocumentSnapshot document) {
               final data = document.data() as Map<dynamic, dynamic>;
-              return MangeProductItem(dataObj: data);
+              return ManageProductItem(dataObj: data);
             }).toList(),
           );
         });

@@ -12,7 +12,7 @@ class OrderItemStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: DBServices().orderItemStream(orderNumber),
+        stream: DBServices().orderItemStream(orderNumber, ''),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Something went wrong'));
@@ -24,7 +24,7 @@ class OrderItemStream extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             children:
             snapshot.data!.docs.map((DocumentSnapshot document) {
-              final data = document.data() as Map<String, dynamic>;
+              final data = document.data() as Map<dynamic, dynamic>;
               return OrderItem(dataObj: data, userObj: userObj,);
             }).toList(),
           );
